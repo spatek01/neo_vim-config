@@ -1,6 +1,8 @@
 # nvim config
 
-Personal Neovim configuration built with [lazy.nvim](https://github.com/folke/lazy.nvim).
+Personal Neovim config built with [lazy.nvim](https://github.com/folke/lazy.nvim).
+
+The goal is to have everything in one place — editor, terminals, and AI without switching apps. On open, you get an editor pane with a terminal to the right and another one below it, both starting in whatever directory you launched nvim from. GitHub Copilot handles inline completions and chat (explain, fix, review). gen.nvim hooks into a local Ollama model for when you want something private or offline. Everything else is standard: LSP, Telescope, Treesitter, formatting on save.
 
 ## Requirements
 
