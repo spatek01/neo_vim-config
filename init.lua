@@ -29,6 +29,7 @@ vim.opt.timeoutlen = 300
 vim.opt.termguicolors = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.autoread = true
+vim.opt.mouse = "a"
 
 -- Auto-reload files changed outside nvim
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
@@ -84,17 +85,32 @@ vim.api.nvim_create_autocmd("TermEnter", {
 vim.api.nvim_create_autocmd("VimEnter", {
   once = true,
   callback = function()
+    -- Determine terminal cwd from the path nvim was opened with
+    local term_cwd
+    local first_arg = vim.fn.argv(0)
+    if first_arg ~= "" then
+      if vim.fn.isdirectory(first_arg) == 1 then
+        term_cwd = vim.fn.fnamemodify(first_arg, ":p")
+      else
+        term_cwd = vim.fn.fnamemodify(first_arg, ":p:h")
+      end
+    else
+      term_cwd = vim.fn.getcwd()
+    end
+
     local main_win = vim.api.nvim_get_current_win()
 
     -- Right terminal (vertical split from the main edit window)
     vim.cmd("rightbelow vsplit")
-    vim.cmd("terminal")
+    vim.cmd("enew")
+    vim.fn.termopen(vim.o.shell, { cwd = term_cwd })
     local right_win = vim.api.nvim_get_current_win()
 
     -- Return to main window, then split a bottom terminal below it
     vim.api.nvim_set_current_win(main_win)
     vim.cmd("rightbelow 15split")
-    vim.cmd("terminal")
+    vim.cmd("enew")
+    vim.fn.termopen(vim.o.shell, { cwd = term_cwd })
     local bottom_win = vim.api.nvim_get_current_win()
 
     -- Return focus to the main edit window
@@ -533,6 +549,9 @@ require("lazy").setup({
         },
       },
     },
+
+    -- Local LLM integration
+    { "David-Kunz/gen.nvim" },
 
   },
 

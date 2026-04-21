@@ -1,0 +1,22 @@
+# lazy.nvim plugin store (managed at runtime, not committed)
+lazy-lock.json
+
+# LSP / Mason binaries and servers
+/mason/
+
+# Undo history
+/undodir/
+
+# Session files
+/sessions/
+
+# Swap / backup files
+*.swp
+*.swo
+*~
+
+# Compiled Lua bytecode
+*.luac
+
+# OS
+.DS_Store
